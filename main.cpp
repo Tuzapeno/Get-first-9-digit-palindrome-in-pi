@@ -1,10 +1,26 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <string>
 
 using std::cout;   using std::endl; 
 using std::string; using std::ifstream; 
 using std::vector;
+
+
+int isPrime(vector<int>& vec)
+{
+    int num = 0;
+
+    for (auto i : vec)
+        num = num * 10 + i;
+
+    for(int i = 2; i < num; ++i)
+        if(num % i == 0)
+            return 0;
+
+    return 1;
+}
 
 
 int isPalindrome(vector<int>& vec)
@@ -21,7 +37,6 @@ int isPalindrome(vector<int>& vec)
         }
         else return 0;
     }
-    cout << "\nPalindrome found!\n";
     return 1;
 }
 
@@ -29,19 +44,22 @@ void printVector(vector<int>& vec)
 {
     for(int i : vec)
         cout << i;
+    cout << endl;
 }
-
 
 int main () 
 {
-  char character;
-  vector<int> digits;
+    char character;
+    vector<int> digits;
 
-  ifstream myFile ("text.txt");
+    ifstream myFile ("text.txt");
 
-  //Checks if file is open
-  if (myFile.is_open())
-  {
+    if (!myFile.is_open())
+    {
+        cout << "Unable to open file\n";
+        exit(1);
+    }
+
     //Gets the first 9 values.
     for(int i = 0; i < 9; ++i)
     {
@@ -52,31 +70,26 @@ int main ()
         }  
     }
 
-    //Checks for palindrome.
-    if(isPalindrome(digits))
-    {
-        printVector(digits);
-        return 0;
-    }
-
     while(!myFile.eof())
     {
+        if(isPalindrome(digits))
+        {
+            if(isPrime(digits))
+            {
+                cout << "\nPrime Palindrome found!\n";
+                printVector(digits);
+                break;
+            }
+        }
+
         myFile.get(character);
 
         digits.erase(digits.begin());
 
         int digit = character - '0';
         digits.push_back(digit);
-        
-        if(isPalindrome(digits))
-        {
-            printVector(digits);
-            break;
-        }
     }
-    myFile.close();
-  }
-  else cout << "Unable to open file"; 
 
-  return 0;
+    myFile.close();
+    return 0;
 }
