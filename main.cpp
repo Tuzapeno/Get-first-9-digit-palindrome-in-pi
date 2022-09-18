@@ -52,7 +52,7 @@ int main ()
     char character;
     vector<int> digits;
 
-    ifstream myFile ("text.txt");
+    ifstream myFile ("pi.txt");
 
     if (!myFile.is_open())
     {
