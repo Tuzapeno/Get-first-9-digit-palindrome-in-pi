@@ -22,7 +22,6 @@ int isPrime(vector<int>& vec)
     return 1;
 }
 
-
 int isPalindrome(vector<int>& vec)
 {
     vector<int>::iterator it = vec.begin();
